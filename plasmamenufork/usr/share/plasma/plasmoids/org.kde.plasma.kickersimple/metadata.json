@@ -1,0 +1,41 @@
+{
+    "KPlugin": {
+        "_Comment": [
+            {
+                "Original Author Email": "hein@kde.org",
+                "Original Author Name": "Eike Hein"
+            }    
+        ],    
+        "Authors": [
+            {
+                "Email": "biglinux@biglinux.com.br",
+                "Name": "Bruno Goncalves"
+            }
+        ],
+        "Category": "Application Launchers",
+        "Dependencies": [
+        ],
+        "Description": "Full Screen Menu",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
+        "Icon": "start-here-kde",
+        "Id": "org.kde.plasma.kickersimple",
+        "License": "GPL-2.0+",
+        "Name": "Full Screen Simplified",
+        "Name[pt]": "Menu em tela cheia simples",
+        "Name[pt_BR]": "Menu em tela cheia simples",
+
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "1.0"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.launchermenu"
+    ],
+    "X-Plasma-RootPath": "org.kde.plasma.kicker"
+}

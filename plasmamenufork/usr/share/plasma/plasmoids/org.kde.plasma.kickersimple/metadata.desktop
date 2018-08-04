@@ -1,0 +1,31 @@
+[Desktop Entry]
+Name=Full Screen Simplified
+Name[pt]=Menu em tela cheia simples
+Name[pt_BR]=Menu em tela cheia simples
+Comment=Full Screen Menu
+Comment[pt]=Menu com favoritos
+Comment[pt_BR]=Menu com favoritos
+
+Type=Service
+Icon=start-here-kde
+X-KDE-ServiceTypes=Plasma/Applet
+
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-Provides=org.kde.plasma.launchermenu
+
+
+# Original
+#X-KDE-PluginInfo-Author=Eike Hein
+#X-KDE-PluginInfo-Email=hein@kde.org
+
+#Forked by
+X-KDE-PluginInfo-Author=Bruno Goncalves
+X-KDE-PluginInfo-Email=biglinux@biglinux.com.br
+X-KDE-PluginInfo-Name=org.kde.plasma.kickersimple
+X-KDE-PluginInfo-Version=2.0
+X-KDE-PluginInfo-Category=Application Launchers
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL-2.0+
+X-KDE-PluginInfo-EnabledByDefault=true
+

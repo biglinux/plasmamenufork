@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for i  in  $(ls /usr/share/locale); do
+    ln -s /usr/share/locale/$i/LC_MESSAGES/plasma_applet_org.kde.plasma.kicker.mo /usr/share/locale/$i/LC_MESSAGES/plasma_applet_org.kde.plasma.kickersimple.mo 2> /dev/null
+    ln -s /usr/share/locale/$i/LC_MESSAGES/plasma_applet_org.kde.plasma.kicker.mo /usr/share/locale/$i/LC_MESSAGES/plasma_applet_org.kde.plasma.kickersimple.mo 2> /dev/null
+done
+
+exit 0
