@@ -30,9 +30,10 @@ PlasmaExtras.ScrollArea {
     anchors {
         top: parent.top
     }
-        x: - (units.largeSpacing)
 
     width: parent.width
+
+    implicitHeight: itemColumn.implicitHeight
 
     signal keyNavLeft(int subGridIndex)
     signal keyNavRight(int subGridIndex)
@@ -84,7 +85,7 @@ PlasmaExtras.ScrollArea {
     }
 
     Column {
-        id: column
+        id: itemColumn
 
         width: itemMultiGrid.width - units.gridUnit
 
@@ -92,7 +93,7 @@ PlasmaExtras.ScrollArea {
             id: repeater
 
             delegate: Item {
-                width: column.width
+                width: itemColumn.width
                 height: headerHeight + gridView.height + (index == repeater.count - 1 ? 0 : footerHeight - 100)
 
                 property int headerHeight: (gridViewLabel.height
@@ -134,6 +135,13 @@ PlasmaExtras.ScrollArea {
                     elementId: "horizontal-line"
                 }
 
+                MouseArea {
+                    width: parent.width
+                    height: parent.height
+
+                    onClicked: root.toggle()
+                }
+
                 ItemGridView {
                     id: gridView
 
@@ -172,7 +180,7 @@ PlasmaExtras.ScrollArea {
                             return;
                         }
 
-                        if (index == 0 && currentRow() == 0) {
+                        if (index == 0 && currentRow() === 0) {
                             itemMultiGrid.flickableItem.contentY = 0;
                             return;
                         }

@@ -297,8 +297,7 @@ Kicker.DashboardWindow {
             color: "white"
 
             level: 1
-
-            text: searching ? i18n("Searching for '%1'", searchField.text) : i18n("Type to search.")
+            text: searching ? i18n("Searching for '%1'", searchField.text) : i18n("Type to search...")
         }
 
         PlasmaComponents.ToolButton {

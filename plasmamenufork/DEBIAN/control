@@ -5,7 +5,7 @@ Architecture: all
 Maintainer: Bruno Goncalves <bigbruno@gmail.com>
 Section: admin
 Priority: optional
-Installed-Size:496
+Installed-Size:432
 Description: Two menu launcher based in full screen official KDE launcher, simple and super simple
 
 
