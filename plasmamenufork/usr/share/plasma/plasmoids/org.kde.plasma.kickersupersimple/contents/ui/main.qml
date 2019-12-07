@@ -87,6 +87,7 @@ Item {
         appletInterface: plasmoid
 
         showAllApps: isDash
+        showAllAppsCategorized: true
         showTopLevelItems: !isDash
         showRecentApps: plasmoid.configuration.showRecentApps
         showRecentDocs: plasmoid.configuration.showRecentDocs
@@ -160,7 +161,8 @@ Item {
             var runners = new Array("services");
 
             if (isDash) {
-                runners = runners.concat(new Array("desktopsessions", "PowerDevil"));
+                runners = runners.concat(new Array("desktopsessions", "PowerDevil",
+                    "calculator", "unitconverter"));
             }
 
             if (plasmoid.configuration.useExtraRunners) {
@@ -224,7 +226,7 @@ Item {
         id: toolTipDelegate
 
         width: contentWidth
-        height: contentHeight
+        height: undefined
 
         property Item toolTip
 
@@ -268,7 +270,7 @@ Item {
         plasmoid.hideOnWindowDeactivate = true;
 
         if (plasmoid.immutability !== PlasmaCore.Types.SystemImmutable) {
-            plasmoid.setAction("menuedit", i18n("Edit Applications..."));
+            plasmoid.setAction("menuedit", i18n("Edit Applications..."), "kmenuedit");
         }
 
         updateSvgMetrics();
