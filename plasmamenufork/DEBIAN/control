@@ -1,5 +1,5 @@
 Package: plasmamenufork
-Version: 1.0.1-1big1
+Version: 1.0.1-1big3
 Depends: plasma-widgets-addons
 Architecture: all
 Maintainer: Bruno Goncalves <bigbruno@gmail.com>

@@ -554,7 +554,7 @@ Kicker.DashboardWindow {
 
                 anchors.top: parent.top
 
-                width: ((columns * cellSize) + units.gridUnit) * 1.18
+                width: ((columns * cellSize) + units.gridUnit) * 1.12
                 height: Math.floor(parent.height / cellSize) * cellSize + mainGridContainer.headerHeight
 
                 property int columns: root.columns - favoritesColumn.columns - filterListColumn.columns
