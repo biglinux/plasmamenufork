@@ -44,7 +44,7 @@ Kicker.DashboardWindow {
     property bool smallScreen: ((Math.floor(width / units.iconSizes.huge) <= 22) || (Math.floor(height / units.iconSizes.huge) <= 14))
 
     property int iconSize: smallScreen ? units.iconSizes.large : units.iconSizes.huge
-    property int cellSize: 100
+    property int cellSize: 92
     property int columns: Math.floor(((smallScreen ? 85 : 80)/100) * Math.ceil(width / 100))
     property bool searching: (searchField.text != "")
     property var widgetExplorer: null
