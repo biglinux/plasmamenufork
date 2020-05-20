@@ -1,6 +1,6 @@
 d41d8cd98f00b204e9800998ecf8427e  DEBIAN/md5sums
 b9e9016bda3f671c3b4ae3ebed2fcf49  DEBIAN/postinst
-d243de599b33da255dd22a6641dd3f3d  DEBIAN/control
+176eed8cb00e23bdeb9c811c9f5bf009  DEBIAN/control
 723cc3b63ab6ff9d854a607e253c66cc  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/config/config.qml
 2508c4917404053dd9be5f67e71955b0  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/config/main.xml
 fdb592036127a6eeb2f9a610f54eeafb  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/ui/ActionMenu.qml
@@ -20,7 +20,7 @@ a798f4220403b6a67d221125852355c7  usr/share/plasma/plasmoids/org.kde.plasma.kick
 1d1b0e5dcbbcf3d6839551c36cd36a8a  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/ui/SideBarSection.qml
 c3716eec45596fa7cce7ab45b8ac9d54  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/ui/code/tools.js
 b8e07c1a6b033bcb89fbab485d15dace  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/ui/main.qml
-6a21c544d5b6c0c45e2d8b585d8cabfc  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/ui/DashboardRepresentation.qml
+86b3166b3f8b16b77e358b05b1ccc443  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/contents/ui/DashboardRepresentation.qml
 678ab8a4cde5a3c03f32af95cd13a560  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/metadata.desktop
 4762082af385e86edf1b3b183cc24e50  usr/share/plasma/plasmoids/org.kde.plasma.kickersimple/metadata.json
 723cc3b63ab6ff9d854a607e253c66cc  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/config/config.qml
@@ -28,7 +28,7 @@ b8e07c1a6b033bcb89fbab485d15dace  usr/share/plasma/plasmoids/org.kde.plasma.kick
 fdb592036127a6eeb2f9a610f54eeafb  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/ActionMenu.qml
 298dfadd1252f823ff3d440183a4af30  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/CompactRepresentation.qml
 b89e6e5edc77a011c2c0a64fff070ce8  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/ConfigGeneral.qml
-8f7239e562bdac2e601bf42254a427ff  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/DashboardRepresentation.qml
+1b96844915be1a418f0c2f0de51e4511  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/DashboardRepresentation.qml
 bcc94cfb849fac45ee358cd7208597d0  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/DashboardTabBar.qml
 84c24e7c3bacf67b8c9eab1908f8929e  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/DashboardTabButton.qml
 c47eb8e8307af3b41d541126feaea10d  usr/share/plasma/plasmoids/org.kde.plasma.kickersupersimple/contents/ui/ItemGridDelegate.qml
