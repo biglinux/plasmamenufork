@@ -28,17 +28,19 @@ Item {
     id: item
 
     width: GridView.view.cellWidth
-    height: width * 0.85
+    height: GridView.view.cellHeight
+
+    enabled: !model.disabled
 
     property bool showLabel: true
 
     property int itemIndex: model.index
-    property string favoriteId: model.favoriteId != undefined ? model.favoriteId : ""
-    property url url: model.url != undefined ? model.url : ""
-    property variant icon: model.decoration != undefined ? model.decoration : ""
+    property string favoriteId: model.favoriteId !== undefined ? model.favoriteId : ""
+    property url url: model.url !== undefined ? model.url : ""
+    property variant icon: model.decoration !== undefined ? model.decoration : ""
     property var m: model
-    property bool hasActionList: ((model.favoriteId != null)
-        || (("hasActionList" in model) && (model.hasActionList == true)))
+    property bool hasActionList: ((model.favoriteId !== null)
+        || (("hasActionList" in model) && (model.hasActionList === true)))
 
     Accessible.role: Accessible.MenuItem
     Accessible.name: model.display
@@ -61,10 +63,10 @@ Item {
     PlasmaCore.IconItem {
         id: icon
 
-        y: showLabel ? (highlightItemSvg.margins.top) : undefined
+        y: item.showLabel ? (2 * highlightItemSvg.margins.top) : undefined
 
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: showLabel ? undefined : parent.verticalCenter * 1.2
+        anchors.verticalCenter: item.showLabel ? undefined : parent.verticalCenter
 
         width: iconSize
         height: width
@@ -80,11 +82,11 @@ Item {
     PlasmaComponents.Label {
         id: label
 
-        visible: showLabel
+        visible: item.showLabel
 
         anchors {
             top: icon.bottom
-            topMargin: units.smallSpacing
+            topMargin: PlasmaCore.Units.smallSpacing
             left: parent.left
             leftMargin: highlightItemSvg.margins.left
             right: parent.right
@@ -95,7 +97,6 @@ Item {
 
         wrapMode: Text.Wrap
         maximumLineCount: 3
-        
 
         color: "white" // FIXME TODO: Respect theming?
 
@@ -110,13 +111,15 @@ Item {
         anchors.fill: parent
         active: root.visible && label.truncated
         mainItem: toolTipDelegate
+
+        onContainsMouseChanged: item.GridView.view.itemContainsMouseChanged(containsMouse)
     }
 
-    Keys.onPressed: {
-        if (event.key == Qt.Key_Menu && hasActionList) {
+    Keys.onPressed: event => {
+        if (event.key === Qt.Key_Menu && hasActionList) {
             event.accepted = true;
             openActionMenu(item);
-        } else if ((event.key == Qt.Key_Enter || event.key == Qt.Key_Return)) {
+        } else if ((event.key === Qt.Key_Enter || event.key === Qt.Key_Return)) {
             event.accepted = true;
 
             if ("trigger" in GridView.view.model) {

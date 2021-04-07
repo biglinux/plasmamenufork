@@ -41,7 +41,9 @@ Kirigami.FormLayout {
 
     property alias cfg_appNameFormat: appNameFormat.currentIndex
     property alias cfg_limitDepth: limitDepth.checked
+    property alias cfg_favoritesAndShutdown: favoritesAndShutdown.checked
     property alias cfg_alphaSort: alphaSort.checked
+    property alias cfg_showIconsRootLevel: showIconsRootLevel.checked
 
     property alias cfg_recentOrdering: recentOrdering.currentIndex
     property alias cfg_showRecentApps: showRecentApps.checked
@@ -57,8 +59,8 @@ Kirigami.FormLayout {
 
         Kirigami.FormData.label: i18n("Icon:")
 
-        implicitWidth: previewFrame.width + units.smallSpacing * 2
-        implicitHeight: previewFrame.height + units.smallSpacing * 2
+        implicitWidth: previewFrame.width + PlasmaCore.Units.smallSpacing * 2
+        implicitHeight: previewFrame.height + PlasmaCore.Units.smallSpacing * 2
 
         // Just to provide some visual feedback when dragging;
         // cannot have checked without checkable enabled
@@ -103,8 +105,8 @@ Kirigami.FormLayout {
             id: iconDialog
 
             function setCustomButtonImage(image) {
-                cfg_customButtonImage = image || cfg_icon || "start-here-kde"
-                cfg_useCustomButtonImage = true;
+                configGeneral.cfg_customButtonImage = image || configGeneral.cfg_icon || "start-here-kde"
+                configGeneral.cfg_useCustomButtonImage = true;
             }
 
             onIconNameChanged: setCustomButtonImage(iconName);
@@ -115,14 +117,14 @@ Kirigami.FormLayout {
             anchors.centerIn: parent
             imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
                     ? "widgets/panel-background" : "widgets/background"
-            width: units.iconSizes.large + fixedMargins.left + fixedMargins.right
-            height: units.iconSizes.large + fixedMargins.top + fixedMargins.bottom
+            width: PlasmaCore.Units.iconSizes.large + fixedMargins.left + fixedMargins.right
+            height: PlasmaCore.Units.iconSizes.large + fixedMargins.top + fixedMargins.bottom
 
             PlasmaCore.IconItem {
                 anchors.centerIn: parent
-                width: units.iconSizes.large
+                width: PlasmaCore.Units.iconSizes.large
                 height: width
-                source: cfg_useCustomButtonImage ? cfg_customButtonImage : cfg_icon
+                source: configGeneral.cfg_useCustomButtonImage ? configGeneral.cfg_customButtonImage : configGeneral.cfg_icon
             }
         }
 
@@ -143,8 +145,8 @@ Kirigami.FormLayout {
                 text: i18nc("@item:inmenu Reset icon to default", "Clear Icon")
                 icon.name: "edit-clear"
                 onClicked: {
-                    cfg_icon = "start-here-kde"
-                    cfg_useCustomButtonImage = false
+                    configGeneral.cfg_icon = "start-here-kde"
+                    configGeneral.cfg_useCustomButtonImage = false
                 }
             }
         }
@@ -183,6 +185,21 @@ Kirigami.FormLayout {
         text: i18n("Flatten sub-menus to a single level")
     }
 
+    CheckBox {
+        id: favoritesAndShutdown
+
+        visible: isDash
+
+        text: i18n("Show favorites and power actions")
+    }
+
+    CheckBox {
+        id: showIconsRootLevel
+
+        visible: !configGeneral.isDash
+
+        text: i18n("Show icons on the root level of the menu")
+    }
 
     Item {
         Kirigami.FormData.isSection: true
@@ -202,8 +219,8 @@ Kirigami.FormLayout {
         id: showRecentDocs
 
         text: recentOrdering.currentIndex == 0
-                ? i18n("Recent documents")
-                : i18n("Often used documents")
+                ? i18n("Recent files")
+                : i18n("Often used files")
     }
 
     CheckBox {
@@ -236,7 +253,7 @@ Kirigami.FormLayout {
     CheckBox {
         id: alignResultsToBottom
 
-        visible: !isDash
+        visible: !configGeneral.isDash
 
         text: i18n("Align search results to bottom")
     }

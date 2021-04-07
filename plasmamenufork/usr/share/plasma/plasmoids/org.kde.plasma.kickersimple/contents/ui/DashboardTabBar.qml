@@ -24,10 +24,11 @@ Row {
 
     property int activeTab: 0
     property int hoveredTab: -1
+    Accessible.role: Accessible.PageTabList
 
     signal containsMouseChanged(int index, bool containsMouse)
 
-    onContainsMouseChanged: {
+    onContainsMouseChanged: (index, containsMouse) => {
         if (containsMouse) {
             hoveredTab = index;
         } else {
@@ -43,6 +44,7 @@ Row {
         text: i18n("Apps & Docs")
 
         active: (tabBar.activeTab == 0)
+        focus: parent.focus & active
     }
 
     DashboardTabButton {
@@ -53,22 +55,23 @@ Row {
         text: i18n("Widgets")
 
         active: (tabBar.activeTab == 1)
+        focus: parent.focus & active
     }
 
-    Keys.onLeftPressed: {
+    Keys.onLeftPressed: event => {
         if (activeTab == 1) {
             activeTab = 0;
         }
     }
 
-    Keys.onRightPressed: {
+    Keys.onRightPressed: event => {
         if (activeTab == 0) {
             activeTab = 1;
         }
     }
 
-    Keys.onPressed: {
-        if (event.key == Qt.Key_Tab) {
+    Keys.onPressed: event => {
+        if (event.key === Qt.Key_Tab) {
             event.accepted = true;
 
             if (searching) {
@@ -76,7 +79,7 @@ Row {
             } else {
                 mainColumn.tryActivate(0, 0);
             }
-        } else if (event.key == Qt.Key_Backtab) {
+        } else if (event.key === Qt.Key_Backtab) {
             event.accepted = true;
 
             if (globalFavoritesGrid.enabled) {

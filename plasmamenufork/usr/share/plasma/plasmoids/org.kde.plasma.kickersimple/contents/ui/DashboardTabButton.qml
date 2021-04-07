@@ -20,36 +20,39 @@
 import QtQuick 2.4
 
 import org.kde.plasma.plasmoid 2.0
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
     id: tab
 
-    width: label.contentWidth + (units.largeSpacing * 2)
-    height: label.contentHeight + (units.smallSpacing * 2)
+    width: label.contentWidth + (PlasmaCore.Units.largeSpacing * 2)
+    height: label.contentHeight + (PlasmaCore.Units.smallSpacing * 2)
 
     property int index: 0
     property bool active: false
     property alias text: label.text
+    Accessible.name: text
+    Accessible.role: Accessible.PageTab
 
     Rectangle {
         anchors.fill: parent
 
         color: tab.parent.focus ? theme.highlightColor : "black"
 
-        opacity: active ? 0.4 : 0.15
-        Behavior on opacity { SmoothedAnimation { duration: units.shortDuration; velocity: 0.01 } }
+        opacity: tab.active ? 0.4 : 0.15
+        Behavior on opacity { SmoothedAnimation { duration: PlasmaCore.Units.shortDuration; velocity: 0.01 } }
     }
 
     PlasmaExtras.Heading {
         id: label
 
-        x: units.largeSpacing
+        x: PlasmaCore.Units.largeSpacing
 
         elide: Text.ElideNone
         wrapMode: Text.NoWrap
-        opacity: active ? 1.0 : 0.6
-        Behavior on opacity { SmoothedAnimation { duration: units.shortDuration; velocity: 0.01 } }
+        opacity: tab.active ? 1.0 : 0.6
+        Behavior on opacity { SmoothedAnimation { duration: PlasmaCore.Units.shortDuration; velocity: 0.01 } }
 
         color: tab.parent.focus ? theme.highlightedTextColor : "white"
 
@@ -66,7 +69,7 @@ Item {
         }
 
         onContainsMouseChanged: {
-            tab.parent.containsMouseChanged(index, containsMouse);
+            tab.parent.containsMouseChanged(tab.index, containsMouse);
         }
     }
 }

@@ -30,6 +30,7 @@ FocusScope {
     signal keyNavigationAtListEnd
 
     property alias currentIndex: runnerMatches.currentIndex
+    property alias count: runnerMatches.count
     property alias containsMouse: runnerMatches.containsMouse
 
     Accessible.name: header.text
@@ -39,7 +40,7 @@ FocusScope {
         id: vertLine
 
         anchors.left: parent.left
-        anchors.leftMargin: (index > 0 ) ? units.smallSpacing : 0
+        anchors.leftMargin: (index > 0 ) ? PlasmaCore.Units.smallSpacing : 0
 
         width: (index > 0 ) ? lineSvg.vertLineWidth : 0
         height: parent.height
@@ -56,16 +57,17 @@ FocusScope {
         anchors.left: vertLine.right
 
         width: runnerMatches.width
-        height: runnerMatches.itemHeight
+        height: runnerMatches.itemHeight + PlasmaCore.Units.smallSpacing
 
         horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVTop
 
         textFormat: Text.PlainText
-        wrapMode: Text.WordWrap
+        wrapMode: Text.NoWrap
         elide: Text.ElideRight
         font.weight: Font.Bold
 
-        text: (runnerMatches.model != null) ? runnerMatches.model.name : ""
+        text: (runnerMatches.model !== null) ? runnerMatches.model.name : ""
     }
 
     ItemListView {
@@ -73,16 +75,16 @@ FocusScope {
 
         anchors.top: plasmoid.configuration.alignResultsToBottom ? undefined : header.bottom
         anchors.bottom: plasmoid.configuration.alignResultsToBottom ? parent.bottom : undefined
-        anchors.bottomMargin: (index == 0 && anchors.bottom != undefined) ? searchField.height + (2 * units.smallSpacing) : undefined
+        anchors.bottomMargin: (index == 0 && anchors.bottom !== undefined) ? searchField.height + (2 * PlasmaCore.Units.smallSpacing) : undefined
         anchors.left: vertLine.right
-        anchors.leftMargin: (index > 0) ? units.smallSpacing : 0
+        anchors.leftMargin: (index > 0) ? PlasmaCore.Units.smallSpacing : 0
 
         height: {
             var listHeight = (((index == 0)
                 ? rootList.height : runnerColumns.height) - header.height);
 
             if (model && model.count) {
-                return Math.min(listHeight, model.count * itemHeight);
+                return Math.min(favoriteSystemActions.height + favoriteApps.height - header.height, model.count * itemHeight);
             }
 
             return listHeight;
@@ -98,7 +100,7 @@ FocusScope {
         model: runnerModel.modelForRow(index)
 
         onModelChanged: {
-            if (model == undefined || model == null) {
+            if (model === undefined || model === null) {
                 enabled: false;
                 visible: false;
             }

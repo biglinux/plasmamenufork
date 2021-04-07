@@ -25,24 +25,24 @@ import org.kde.draganddrop 2.0
 DropArea {
     id: root
 
-    width: units.iconSizes.medium
+    width: PlasmaCore.Units.iconSizes.medium
     height: contentHeight
 
     anchors.horizontalCenter: parent.horizontalCenter
 
-    property int contentHeight: model ? (model.count * units.iconSizes.medium) + ((model.count - 1) * flow.spacing) : 0
+    property int contentHeight: model ? (model.count * PlasmaCore.Units.iconSizes.medium) + ((model.count - 1) * flow.spacing) : 0
 
     property alias model: repeater.model
     property alias usesPlasmaTheme: repeater.usesPlasmaTheme
 
-    onDragMove: {
+    onDragMove: event => {
         if (flow.animating) {
             return;
         }
 
         var above = flow.childAt(event.x, event.y);
 
-        if (above && above != kicker.dragSource && dragSource.parent == flow) {
+        if (above && above !== kicker.dragSource && dragSource.parent == flow) {
             repeater.model.moveRow(dragSource.itemIndex, above.itemIndex);
         }
 
@@ -70,7 +70,7 @@ DropArea {
             }
         }
 
-        spacing: (2 * units.smallSpacing)
+        spacing: (2 * PlasmaCore.Units.smallSpacing)
 
         Repeater {
             id: repeater

@@ -33,16 +33,16 @@ Item {
     signal actionTriggered(string actionId, variant actionArgument)
     signal aboutToShowActionMenu(variant actionMenu)
 
-    property bool hasActionList: ((model.favoriteId != null)
-        || (("hasActionList" in model) && (model.hasActionList != null)))
+    property bool hasActionList: ((model.favoriteId !== null)
+        || (("hasActionList" in model) && (model.hasActionList !== null)))
     property int itemIndex: model.index
 
-    onAboutToShowActionMenu: {
-        var actionList = (model.hasActionList != null) ? model.actionList : [];
+    onAboutToShowActionMenu: actionMenu => {
+        var actionList = (model.hasActionList !== null) ? model.actionList : [];
         Tools.fillActionMenu(i18n, actionMenu, actionList, repeater.model, model.favoriteId);
     }
 
-    onActionTriggered: {
+    onActionTriggered: (actionId, actionArgument) => {
         if (Tools.triggerAction(repeater.model, model.index, actionId, actionArgument) === true) {
             plasmoid.expanded = false;
         }

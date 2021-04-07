@@ -53,7 +53,7 @@ function createFavoriteActions(i18n, favoriteModel, favoriteId) {
 
         if (favoriteModel.isFavorite(favoriteId)) {
             action.text = i18n("Remove from Favorites");
-            action.icon = "list-remove";
+            action.icon = "bookmark-remove";
             action.actionId = "_kicker_favorite_remove";
         } else if (favoriteModel.maxFavorites == -1 || favoriteModel.count < favoriteModel.maxFavorites) {
             action.text = i18n("Add to Favorites");
@@ -130,7 +130,7 @@ function createFavoriteActions(i18n, favoriteModel, favoriteId) {
 
         // Adding the item to link/unlink to the current activity
 
-        addActivityItem(favoriteModel.activities.currentActivity, i18n("On The Current Activity"));
+        addActivityItem(favoriteModel.activities.currentActivity, i18n("On the Current Activity"));
 
         actions.push({
             type: "separator",
@@ -144,7 +144,7 @@ function createFavoriteActions(i18n, favoriteModel, favoriteId) {
         });
 
         return [{
-            text       : i18n("Show In Favorites"),
+            text       : i18n("Show in Favorites"),
             icon       : "favorite",
             subActions : actions
         }];

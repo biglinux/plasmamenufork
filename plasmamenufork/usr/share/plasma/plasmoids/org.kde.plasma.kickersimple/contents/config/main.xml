@@ -27,6 +27,10 @@
       <label>Whether to flatten top-level menu categories to a single level instead of displaying sub-categories.</label>
       <default>false</default>
     </entry>
+    <entry name="favoritesAndShutdown" type="Bool">
+      <label>Whether to show Favorites and power actions on left side of dashboard.</label>
+      <default>true</default>
+    </entry>
     <entry name="alphaSort" type="Bool">
       <label>Whether to sort menu contents alphabetically or use manual/system sort order.</label>
       <default>false</default>
@@ -58,7 +62,7 @@
       <default>true</default>
     </entry>
     <entry name="showRecentDocs" type="Bool">
-      <label>Whether to show the "Recent Documents" category.</label>
+      <label>Whether to show the "Recent Files" category.</label>
       <default>true</default>
     </entry>
     <entry name="showRecentContacts" type="Bool">
@@ -72,7 +76,7 @@
     </entry>
     <entry name="extraRunners" type="StringList">
       <label>The plugin id's of additional KRunner plugins to use. Only used if useExtraRunners is true.</label>
-      <default>shell,bookmarks,baloosearch,locations</default>
+      <default>bookmarks,baloosearch,locations</default>
     </entry>
     <entry name="alignResultsToBottom" type="Bool">
       <label>Whether to align search results to the bottom of the menu representation (e.g. panel popup) instead of the top.</label>

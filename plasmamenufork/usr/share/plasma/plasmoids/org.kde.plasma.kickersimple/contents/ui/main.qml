@@ -33,7 +33,7 @@ Item {
 
     signal reset
 
-    property bool isDash: (plasmoid.pluginName == "org.kde.plasma.kickersimple")
+    property bool isDash: (plasmoid.pluginName === "org.kde.plasma.kickersimple")
 
     Plasmoid.switchWidth: isDash || !Plasmoid.fullRepresentationItem ? 0 : Plasmoid.fullRepresentationItem.Layout.minimumWidth
     Plasmoid.switchHeight: isDash || !Plasmoid.fullRepresentationItem ? 0 : Plasmoid.fullRepresentationItem.Layout.minimumHeight
@@ -81,14 +81,14 @@ Item {
         autoPopulate: false
 
         appNameFormat: plasmoid.configuration.appNameFormat
-        flat: isDash ? true : plasmoid.configuration.limitDepth
+        flat: kicker.isDash ? true : plasmoid.configuration.limitDepth
         sorted: plasmoid.configuration.alphaSort
-        showSeparators: !isDash
+        showSeparators: !kicker.isDash
         appletInterface: plasmoid
 
-        showAllApps: isDash
+        showAllApps: kicker.isDash
         showAllAppsCategorized: true
-        showTopLevelItems: !isDash
+        showTopLevelItems: !kicker.isDash
         showRecentApps: plasmoid.configuration.showRecentApps
         showRecentDocs: plasmoid.configuration.showRecentDocs
         showRecentContacts: plasmoid.configuration.showRecentContacts
@@ -125,7 +125,7 @@ Item {
     Connections {
         target: globalFavorites
 
-        onFavoritesChanged: {
+        function onFavoritesChanged() {
             plasmoid.configuration.favoriteApps = target.favorites;
         }
     }
@@ -133,7 +133,7 @@ Item {
     Connections {
         target: systemFavorites
 
-        onFavoritesChanged: {
+        function onFavoritesChanged() {
             plasmoid.configuration.favoriteSystemActions = target.favorites;
         }
     }
@@ -141,11 +141,11 @@ Item {
     Connections {
         target: plasmoid.configuration
 
-        onFavoriteAppsChanged: {
+        function onFavoriteAppsChanged() {
             globalFavorites.favorites = plasmoid.configuration.favoriteApps;
         }
 
-        onFavoriteSystemActionsChanged: {
+        function onFavoriteSystemActionsChanged() {
             systemFavorites.favorites = plasmoid.configuration.favoriteSystemActions;
         }
     }
@@ -160,7 +160,7 @@ Item {
         runners: {
             var runners = new Array("services");
 
-            if (isDash) {
+            if (kicker.isDash) {
                 runners = runners.concat(new Array("desktopsessions", "PowerDevil",
                     "calculator", "unitconverter"));
             }
@@ -172,13 +172,13 @@ Item {
             return runners;
         }
 
-        deleteWhenEmpty: isDash
+        deleteWhenEmpty: kicker.isDash
     }
 
     Kicker.DragHelper {
         id: dragHelper
 
-        dragIconSize: units.iconSizes.medium
+        dragIconSize: PlasmaCore.Units.iconSizes.medium
     }
 
     Kicker.ProcessRunner {
@@ -243,7 +243,7 @@ Item {
     Connections {
         target: plasmoid
 
-        onExpandedChanged: {
+        function onExpandedChanged(expanded) {
             if (expanded) {
                 windowSystem.monitorWindowVisibility(plasmoid.fullRepresentationItem);
                 justOpenedTimer.start();
@@ -263,7 +263,7 @@ Item {
 
     Component.onCompleted: {
         if (plasmoid.hasOwnProperty("activationTogglesExpanded")) {
-            plasmoid.activationTogglesExpanded = !isDash
+            plasmoid.activationTogglesExpanded = !kicker.isDash
         }
 
         windowSystem.focusIn.connect(enableHideOnWindowDeactivate);

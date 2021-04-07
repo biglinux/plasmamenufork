@@ -27,7 +27,7 @@ import org.kde.kquickcontrolsaddons 2.0
 FocusScope {
     id: itemList
 
-    property real minimumWidth: units.gridUnit * 14
+    property real minimumWidth: PlasmaCore.Units.gridUnit * 14
     property real maximumWidth: minimumWidth * 2
 
     width: minimumWidth
@@ -41,10 +41,10 @@ FocusScope {
     property QtObject dialog: null
     property QtObject childDialog: null
     property bool iconsEnabled: false
-    property int itemHeight: Math.ceil((Math.max(theme.mSize(theme.defaultFont).height, units.iconSizes.small)
+    property int itemHeight: Math.ceil((Math.max(theme.mSize(theme.defaultFont).height, PlasmaCore.Units.iconSizes.small)
         + Math.max(highlightItemSvg.margins.top + highlightItemSvg.margins.bottom,
         listItemSvg.margins.top + listItemSvg.margins.bottom)) / 2) * 2
-    property int separatorHeight: lineSvg.horLineHeight + (2 * units.smallSpacing)
+    property int separatorHeight: lineSvg.horLineHeight + (2 * PlasmaCore.Units.smallSpacing)
 
     property alias currentIndex: listView.currentIndex
     property alias currentItem: listView.currentItem
@@ -68,30 +68,30 @@ FocusScope {
         repeat: false
 
         onTriggered: {
-            if (!plasmoid.expanded || model == undefined || currentIndex == -1) {
+            if (!plasmoid.expanded || model === undefined || currentIndex == -1) {
                 return;
             }
 
-            if (childDialog != null) {
-                childDialog.delayedDestroy();
+            if (itemList.childDialog != null) {
+                itemList.childDialog.delayedDestroy();
             }
 
             // Gets reenabled after the dialog spawn causes a focus-in on the dialog window.
             plasmoid.hideOnWindowDeactivate = false;
 
-            childDialog = itemListDialogComponent.createObject(itemList);
-            childDialog.focusParent = itemList;
-            childDialog.visualParent = listView.currentItem;
-            childDialog.model = model.modelForRow(listView.currentIndex);
-            childDialog.visible = true;
+            itemList.childDialog = itemListDialogComponent.createObject(itemList);
+            itemList.childDialog.focusParent = itemList;
+            itemList.childDialog.visualParent = listView.currentItem;
+            itemList.childDialog.model = model.modelForRow(listView.currentIndex);
+            itemList.childDialog.visible = true;
 
-            windowSystem.forceActive(childDialog.mainItem);
-            childDialog.mainItem.focus = true;
+            windowSystem.forceActive(itemList.childDialog.mainItem);
+            itemList.childDialog.mainItem.focus = true;
 
             if (focusOnSpawn) {
-                childDialog.mainItem.showChildDialogs = false;
-                childDialog.mainItem.currentIndex = 0;
-                childDialog.mainItem.showChildDialogs = true;
+                itemList.childDialog.mainItem.showChildDialogs = false;
+                itemList.childDialog.mainItem.currentIndex = 0;
+                itemList.childDialog.mainItem.showChildDialogs = true;
             }
         }
     }
@@ -103,7 +103,7 @@ FocusScope {
         repeat: false
 
         onTriggered: {
-            if (focus && (!childDialog || !childDialog.mainItem.containsMouse)) {
+            if (focus && (!itemList.childDialog || !itemList.childDialog.mainItem.containsMouse)) {
                 currentIndex = -1;
                 itemList.exited();
             }
@@ -123,7 +123,7 @@ FocusScope {
             if (containsMouse) {
                 resetIndexTimer.stop();
                 itemList.forceActiveFocus();
-            } else if ((!childDialog || !dialog)
+            } else if ((!itemList.childDialog || !dialog)
                 && (!currentItem || !currentItem.menu.opened)) {
                 resetIndexTimer.start();
             }
@@ -165,12 +165,13 @@ FocusScope {
 
                 onCurrentIndexChanged: {
                     if (currentIndex != -1) {
-                        if (childDialog) {
+                        if (itemList.childDialog) {
                             if (currentItem && currentItem.hasChildren) {
-                                childDialog.model = model.modelForRow(currentIndex);
-                                childDialog.visualParent = listView.currentItem;
+                                itemList.childDialog.mainItem.width = itemList.minimumWidth;
+                                itemList.childDialog.model = model.modelForRow(currentIndex);
+                                itemList.childDialog.visualParent = listView.currentItem;
                             } else {
-                                childDialog.delayedDestroy();
+                                itemList.childDialog.delayedDestroy();
                             }
 
                             return;
@@ -186,9 +187,9 @@ FocusScope {
                             dialogSpawnTimer.focusOnSpawn = false;
                             dialogSpawnTimer.restart();
                         }
-                    } else if (childDialog != null) {
-                        childDialog.delayedDestroy();
-                        childDialog = null;
+                    } else if (itemList.childDialog != null) {
+                        itemList.childDialog.delayedDestroy();
+                        itemList.childDialog = null;
                     }
                 }
 
@@ -198,8 +199,8 @@ FocusScope {
                     }
                 }
 
-                Keys.onPressed: {
-                    if (event.key == Qt.Key_Up) {
+                Keys.onPressed: event => {
+                    if (event.key === Qt.Key_Up) {
                         event.accepted = true;
 
                         if (!keyNavigationWraps && currentIndex == 0) {
@@ -216,7 +217,7 @@ FocusScope {
                         }
 
                         showChildDialogs = true;
-                    } else if (event.key == Qt.Key_Down) {
+                    } else if (event.key === Qt.Key_Down) {
                         event.accepted = true;
 
                         if (!keyNavigationWraps && currentIndex == count - 1) {
@@ -233,22 +234,27 @@ FocusScope {
                         }
 
                         showChildDialogs = true;
-                    } else if ((event.key == Qt.Key_Right || event.key == Qt.Key_Return || event.key == Qt.Key_Enter) && childDialog != null) {
-                        windowSystem.forceActive(childDialog.mainItem);
-                        childDialog.mainItem.focus = true;
-                        childDialog.mainItem.currentIndex = 0;
-                    } else if ((event.key == Qt.Key_Right || event.key == Qt.Key_Return || event.key == Qt.Key_Enter) && childDialog == null
+                    } else if ((event.key === Qt.Key_Right || event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && itemList.childDialog != null) {
+                        windowSystem.forceActive(itemList.childDialog.mainItem);
+                        itemList.childDialog.mainItem.focus = true;
+                        itemList.childDialog.mainItem.currentIndex = 0;
+                    } else if ((event.key === Qt.Key_Right || event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && itemList.childDialog == null
                         && currentItem != null && currentItem.hasChildren) {
                         dialogSpawnTimer.focusOnSpawn = true;
                         dialogSpawnTimer.restart();
-                    } else if (event.key == Qt.Key_Left && dialog != null) {
+                    } else if (event.key === Qt.Key_Left && dialog != null) {
                         dialog.destroy();
-                    } else if (event.key == Qt.Key_Escape) {
+                    } else if (event.key === Qt.Key_Escape) {
                         plasmoid.expanded = false;
-                    } else if (event.key == Qt.Key_Tab) {
+                    } else if (event.key === Qt.Key_Tab) {
                         //do nothing, and skip appending text
-                    } else if (event.text != "") {
-                        appendSearchText(event.text);
+                    } else if (event.text !== "") {
+                        if (/[\x00-\x1F\x7F]/.test(event.text)) {
+                            // We still want to focus it
+                            appendSearchText("");
+                        } else {
+                            appendSearchText(event.text);
+                        }
                     }
                 }
             }

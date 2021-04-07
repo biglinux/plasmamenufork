@@ -30,16 +30,17 @@ Item {
     height: isSeparator ? separatorHeight : itemHeight
     width: ListView.view.width
 
-    enabled: !isSeparator
+    // if it's not disabled and is either a leaf node or a node with children
+    enabled: !isSeparator && !model.disabled && (!isParent || (isParent && hasChildren))
 
     signal actionTriggered(string actionId, variant actionArgument)
     signal aboutToShowActionMenu(variant actionMenu)
 
     readonly property real fullTextWidth: Math.ceil(icon.width + label.implicitWidth + arrow.width + row.anchors.leftMargin + row.anchors.rightMargin + row.actualSpacing)
-    property bool isSeparator: (model.isSeparator == true)
-    property bool hasChildren: (model.hasChildren == true)
-    property bool hasActionList: ((model.favoriteId != null)
-        || (("hasActionList" in model) && (model.hasActionList == true)))
+    property bool isSeparator: (model.isSeparator === true)
+    property bool hasChildren: (model.hasChildren === true)
+    property bool hasActionList: ((model.favoriteId !== null)
+        || (("hasActionList" in model) && (model.hasActionList === true)))
     property QtObject childDialog: null
     property Item menu: actionMenu
 
@@ -47,13 +48,13 @@ Item {
     Accessible.name: label.text
 
     onHasChildrenChanged: {
-        if (!hasChildren && ListView.view.currentItem == item) {
+        if (!hasChildren && ListView.view.currentItem === item) {
             ListView.view.currentIndex = -1;
         }
     }
 
     onAboutToShowActionMenu: {
-        var actionList = hasActionList ? model.actionList : [];
+        var actionList = item.hasActionList ? model.actionList : [];
         Tools.fillActionMenu(i18n, actionMenu, actionList, ListView.view.model.favoritesModel, model.favoriteId);
     }
 
@@ -73,7 +74,7 @@ Item {
         id: actionMenu
 
         onActionClicked: {
-            actionTriggered(actionId, actionArgument);
+            item.actionTriggered(actionId, actionArgument);
         }
     }
 
@@ -96,10 +97,10 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onPressed: {
+        onPressed: mouse => {
             if (mouse.buttons & Qt.RightButton) {
-                if (hasActionList) {
-                    openActionMenu(mouseArea, mouse.x, mouse.y);
+                if (item.hasActionList) {
+                    item.openActionMenu(mouseArea, mouse.x, mouse.y);
                 }
             } else {
                 pressed = true;
@@ -108,8 +109,8 @@ Item {
             }
         }
 
-        onReleased: {
-            if (pressed && !hasChildren) {
+        onReleased: mouse => {
+            if (pressed && !item.hasChildren) {
                 item.ListView.view.model.trigger(index, "", null);
                 plasmoid.expanded = false;
             }
@@ -119,7 +120,7 @@ Item {
             pressY = -1;
         }
 
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (pressX != -1 && model.url && dragHelper.isDrag(pressX, pressY, mouse.x, mouse.y)) {
                 dragHelper.startDrag(kicker, model.url, model.decoration);
                 pressed = false;
@@ -130,21 +131,21 @@ Item {
             }
 
             // FIXME: Correct escape angle calc for right screen edge.
-            if (justOpenedTimer.running || !hasChildren) {
+            if (justOpenedTimer.running || !item.hasChildren) {
                 item.ListView.view.currentIndex = index;
             } else {
                 mouseCol = mouse.x;
 
-                if (index == item.ListView.view.currentIndex) {
+                if (index === item.ListView.view.currentIndex) {
                     updateCurrentItem();
                 } else if ((index == item.ListView.view.currentIndex - 1) && mouse.y < (itemHeight - 6)
                     || (index == item.ListView.view.currentIndex + 1) && mouse.y > 5) {
 
-                    if ((childDialog != null && childDialog.facingLeft)
+                    if ((item.childDialog != null && item.childDialog.facingLeft)
                         ? mouse.x > item.ListView.view.eligibleWidth - 5 : mouse.x < item.ListView.view.eligibleWidth + 5) {
                         updateCurrentItem();
                     }
-                } else if ((childDialog != null && childDialog.facingLeft)
+                } else if ((item.childDialog != null && item.childDialog.facingLeft)
                     ? mouse.x > item.ListView.view.eligibleWidth : mouse.x < item.ListView.view.eligibleWidth) {
                     updateCurrentItem();
                 }
@@ -187,7 +188,7 @@ Item {
 
         height: parent.height
 
-        spacing: units.smallSpacing * 2
+        spacing: PlasmaCore.Units.smallSpacing * 2
         readonly property real actualSpacing: ((icon.visible ? 1 : 0) * spacing) + ((arrow.visible ? 1 : 0) * spacing)
 
         LayoutMirroring.enabled: (Qt.application.layoutDirection == Qt.RightToLeft)
@@ -197,7 +198,7 @@ Item {
 
             anchors.verticalCenter: parent.verticalCenter
 
-            width: visible ? units.iconSizes.small : 0
+            width: visible ? PlasmaCore.Units.iconSizes.small : 0
             height: width
 
             visible: iconsEnabled
@@ -211,7 +212,7 @@ Item {
         PlasmaComponents.Label {
             id: label
 
-            enabled: !isParent || (isParent && hasChildren)
+            enabled: !isParent || (isParent && item.hasChildren)
 
             anchors.verticalCenter: parent.verticalCenter
 
@@ -220,7 +221,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
 
             textFormat: Text.PlainText
-            wrapMode: Text.WordWrap
+            wrapMode: Text.NoWrap
             elide: Text.ElideRight
 
             text: model.display
@@ -231,11 +232,11 @@ Item {
 
             anchors.verticalCenter: parent.verticalCenter
 
-            width: visible ? units.iconSizes.small : 0
+            width: visible ? PlasmaCore.Units.iconSizes.small : 0
             height: width
 
-            visible: hasChildren
-            opacity: (item.ListView.view.currentIndex == index) ? 1.0 : 0.4
+            visible: item.hasChildren
+            opacity: (item.ListView.view.currentIndex === index) ? 1.0 : 0.4
 
             svg: arrows
             elementId: (Qt.application.layoutDirection == Qt.RightToLeft) ? "left-arrow" : "right-arrow"
@@ -263,18 +264,18 @@ Item {
         anchors.rightMargin: highlightItemSvg.margins.right
         anchors.verticalCenter: parent.verticalCenter
 
-        active: isSeparator
+        active: item.isSeparator
 
         asynchronous: false
         sourceComponent: separatorComponent
     }
 
     Keys.onPressed: {
-        if (event.key == Qt.Key_Menu && hasActionList) {
+        if (event.key === Qt.Key_Menu && item.hasActionList) {
             event.accepted = true;
-            openActionMenu(mouseArea);
-        } else if ((event.key == Qt.Key_Enter || event.key == Qt.Key_Return) && !hasChildren) {
-            if (!hasChildren) {
+            item.openActionMenu(mouseArea);
+        } else if ((event.key === Qt.Key_Enter || event.key === Qt.Key_Return) && !item.hasChildren) {
+            if (!item.hasChildren) {
                 event.accepted = true;
                 item.ListView.view.model.trigger(index, "", null);
                 plasmoid.expanded = false;

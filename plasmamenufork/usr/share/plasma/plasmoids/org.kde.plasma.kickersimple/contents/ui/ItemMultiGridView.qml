@@ -87,17 +87,17 @@ PlasmaExtras.ScrollArea {
     Column {
         id: itemColumn
 
-        width: itemMultiGrid.width - units.gridUnit
+        width: itemMultiGrid.width - PlasmaCore.Units.gridUnit
 
         Repeater {
             id: repeater
 
             delegate: Item {
-                width: itemColumn.width
-                height: headerHeight + gridView.height + (index == repeater.count - 1 ? 0 : footerHeight - 100)
+                width: itemColumn.width - PlasmaCore.Units.gridUnit
+                height: headerHeight + gridView.height
 
                 property int headerHeight: (gridViewLabel.height
-                    + gridViewLabelUnderline.height + units.largeSpacing)
+                    + gridViewLabelUnderline.height + PlasmaCore.Units.largeSpacing)
                 property int footerHeight: (Math.ceil(headerHeight / cellSize) * cellSize) - headerHeight
 
                 property Item itemGrid: gridView
@@ -107,14 +107,14 @@ PlasmaExtras.ScrollArea {
 
                     anchors.top: parent.top
 
-                    x: units.smallSpacing
+                    x: PlasmaCore.Units.smallSpacing
                     width: parent.width - x
                     height: dummyHeading.height
 
                     elide: Text.ElideRight
                     wrapMode: Text.NoWrap
                     opacity: 1.0
-                    font.pointSize: 12
+                    font.pointSize: 14
 
                     color: "white" // FIXME TODO: Respect theming?
 
@@ -128,7 +128,7 @@ PlasmaExtras.ScrollArea {
 
                     anchors.top: gridViewLabel.bottom
 
-                    width: parent.width - units.gridUnit
+                    width: parent.width - PlasmaCore.Units.gridUnit
                     height: lineSvg.horLineHeight
 
                     svg: lineSvg
@@ -147,16 +147,15 @@ PlasmaExtras.ScrollArea {
 
                     anchors {
                         top: gridViewLabelUnderline.bottom
-                        topMargin: units.largeSpacing
+                        topMargin: PlasmaCore.Units.largeSpacing
                     }
 
-                    width: parent.width + (units.largeSpacing * 2)
-                    height: Math.ceil(count / Math.floor(width / 140)) * 190
+                    width: parent.width
+                    height: Math.ceil(count / Math.floor(width / cellSize)) * cellSize
 
-                        
-                    cellWidth: 150
-                    cellHeight: 160
-                    iconSize: root.iconSize 
+                    cellWidth: root.cellSize
+                    cellHeight: root.cellSize
+                    iconSize: root.iconSize
 
                     verticalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
