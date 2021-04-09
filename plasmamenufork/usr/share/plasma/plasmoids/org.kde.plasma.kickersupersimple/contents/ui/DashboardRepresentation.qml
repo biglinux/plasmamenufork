@@ -19,6 +19,7 @@
 
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.4
 
 import org.kde.plasma.core 2.1 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
@@ -40,7 +41,6 @@ import "code/tools.js" as Tools
 
 Kicker.DashboardWindow {
     id: root
-
     property bool smallScreen: ((Math.floor(width / units.iconSizes.huge) <= 22) || (Math.floor(height / units.iconSizes.huge) <= 14))
 
     property int iconSize: smallScreen ? units.iconSizes.large : units.iconSizes.huge
@@ -50,6 +50,10 @@ Kicker.DashboardWindow {
     property var widgetExplorer: null
 
     
+    minimumHeight: Screen.desktopAvailableHeight
+    minimumWidth: Screen.desktopAvailableWidth
+    maximumWidth: minimumWidth
+    maximumHeight: minimumHeight
     keyEventProxy: searchField
     backgroundColor: Qt.rgba(0, 0, 0, 0.737)
 
@@ -349,7 +353,7 @@ Kicker.DashboardWindow {
                 top: parent.top
                 topMargin: units.gridUnit * (smallScreen ? 8 : 10) - 110
                 bottom: parent.bottom
-                bottomMargin: (units.gridUnit * 2)
+                bottomMargin: 0
                 horizontalCenter: parent.horizontalCenter
             }
 

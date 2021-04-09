@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
+import QtQuick.Window 2.2
 import org.kde.plasma.plasmoid 2.0
 
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -35,8 +36,8 @@ Item {
 
     property bool isDash: (plasmoid.pluginName == "org.kde.plasma.kickersupersimple")
 
-    Plasmoid.switchWidth: isDash || !Plasmoid.fullRepresentationItem ? 0 : Plasmoid.fullRepresentationItem.Layout.minimumWidth
-    Plasmoid.switchHeight: isDash || !Plasmoid.fullRepresentationItem ? 0 : Plasmoid.fullRepresentationItem.Layout.minimumHeight
+    Plasmoid.switchWidth: isDash || !Plasmoid.fullRepresentationItem ? 0 : Screen.desktopAvailableWidth
+    Plasmoid.switchHeight: isDash || !Plasmoid.fullRepresentationItem ? 0 : Screen.desktopAvailableHeight
 
     // this is a bit of a hack to prevent Plasma from spawning a dialog on its own when we're Dash
     Plasmoid.preferredRepresentation: isDash ? Plasmoid.fullRepresentation : null
