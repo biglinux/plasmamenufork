@@ -19,7 +19,6 @@
 
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
-import QtQuick.Window 2.4
 
 import org.kde.plasma.core 2.1 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
@@ -49,11 +48,6 @@ Kicker.DashboardWindow {
     property bool searching: (searchField.text != "")
     property var widgetExplorer: null
 
-    
-    minimumHeight: Screen.desktopAvailableHeight
-    minimumWidth: Screen.desktopAvailableWidth
-    maximumWidth: minimumWidth
-    maximumHeight: minimumHeight
     keyEventProxy: searchField
     backgroundColor: Qt.rgba(0, 0, 0, 0.737)
 
@@ -142,7 +136,7 @@ Kicker.DashboardWindow {
                     // Needs a more involved hunt through Qt Quick sources later since
                     // it's not happening with near-identical code in the menu repr.
                     rootModel.refresh();
-                } else if (tabBar.activeTab == 1) {
+                } else {
                     root.toggle();
                     containmentInterface.ensureMutable(containmentInterface.screenContainment(plasmoid));
                     kwindowsystem.showingDesktop = true;
